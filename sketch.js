@@ -8,6 +8,9 @@ var ground1
 var arm1, arm2, giant, bone1
 var playerImg
 var enemy1,enemimg
+var leftedge
+var enemyGroup
+
 
 function preload(){
   playerImg = loadImage("Images/player_rightlook.png")
@@ -28,8 +31,13 @@ function setup() {
   bone1 = new cArm(giant.body,arm1.body)
   bone2 = new cArm(arm1.body,arm2.body)
 
-  enemy1 =  createSprite(750,60,50,50)
-  enemy1.addAnimation("attack1",enemimg)
+  // enemy1 =  createSprite(750,410,50,50)
+  // enemy1.addAnimation("attack1",enemimg)
+  leftedge = createSprite(250,410,40,40)
+  leftedge.visible= false
+
+  enemyGroup = new Group()
+  
 }
 
 function draw() {
@@ -42,10 +50,49 @@ function draw() {
   arm2.display()
   bone2.display()
 
+  // enemy1.velocityX = -3
+
+  // enemy1.collide(leftedge)
+
+  spawnE()
+
+  
+
+  for (var i = 0; i < enemyGroup.length; i++) {
+    if (enemyGroup.get(i).isTouching(leftedge)) {
+        enemyGroup.get(i).destroy();
+     
+        
+    }
+    
+}
+
   drawSprites()
 }
 
 function mouseDragged() {
   
+  
+}
+
+function spawnE() {
+  //write code here to spawn the clouds
+  if (frameCount % 60 === 0) {
+    var enemy = createSprite(1200,410,40,10);
+    // .y = Math.round(random(80,120));
+    enemy.addAnimation("attack1",enemimg);
+    // cloud.scale = 0.5;
+    enemy.velocityX = -3;
+    
+     //assign lifetime to the variable
+    // enemy.lifetime = 200;
+    
+    //adjust the depth
+    // enemy.depth = trex.depth;
+    // trex.depth = trex.depth + 1;
+    
+    //add each cloud to the group
+    enemyGroup.add(enemy);
+  }
   
 }
